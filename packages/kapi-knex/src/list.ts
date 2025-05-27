@@ -37,7 +37,7 @@ export function KnexQueryList<T>(
               query.orWhere(
                 k as string,
                 'LIKE',
-                `%${`${value}`.replace(/(["'$%]+)/, '')}%`
+                `%${`${value}`.replace(/(["'$%]+)/g, '')}%`
               );
             });
           });
@@ -101,7 +101,7 @@ export function KnexQueryList<T>(
       .orderBy(params.sort.map(s => ({column: s.field, order: s.direction})));
 
     const totalRow: Array<TotalRow> = await knexCloneIQuery(query)
-      .clear('select')
+      .clearSelect()
       .count('* AS T');
     const total = totalRow && totalRow.length ? totalRow[0].T : 0;
 
@@ -113,7 +113,7 @@ export function KnexQueryList<T>(
         .limit(params.range.limit)
         .orderBy(params.sort.map(s => ({column: s.field, order: s.direction})))
         .toString();
-      console.log(debug);
+      // console.log(debug);
     }
 
     return {

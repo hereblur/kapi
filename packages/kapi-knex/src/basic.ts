@@ -17,12 +17,12 @@ export function SimpleKnexConnection<T>(
   };
 
   const get = async (id: string | number) => {
-    console.log(`getting ${id}`);
+    // console.log(`getting ${id}`);
     const c = await getKnex('get')
       .select('*')
       .where('id', id)
       .then(t => {
-        console.log('got', t);
+        // console.log('got', t);
         return t[0];
       });
 
@@ -40,20 +40,47 @@ export function SimpleKnexConnection<T>(
       ...params_,
     } as Record<string, unknown>;
 
-    const result = await getKnex('create')
-      .returning('id')
-      .insert({
+    const knexInstance = getKnex('create');
+    let insertedId: unknown;
+
+    if (knexInstance.client.config.client === 'sqlite3') {
+      // SQLite does not support `.returning('id')`
+      const inserted = await knexInstance.insert({
         ...params,
       });
 
-    let insertedId = (params as {id?: string | number}).id || result[0];
+      if (params.id) {
+        insertedId = params.id
+      } else
+      if (inserted && typeof inserted === 'object' && 'id' in inserted) { // sqlite3?
+        insertedId = (insertedId as {id: string | number}).id;
+      } else {
+        const inserted = await knexInstance
+          .select('id')
+          .where(params)
+          .orderBy('id', 'desc')
+          .limit(1);
 
-    if (insertedId && typeof insertedId === 'object' && 'id' in insertedId) { // sqlite3?
-      insertedId = (insertedId as {id: string | number}).id;
+        if (inserted.length > 0) {
+          insertedId = inserted[0].id;
+        } else {
+          throw new Error(`Failed to retrieve inserted ID for ${tableName}`);
+        }
+      }
+    } else {
+      // For other SQL clients that support `.returning('id')`
+      const inserted = await knexInstance
+        .returning('id')
+        .insert({
+          ...params,
+        });
+
+      insertedId = inserted[0];
     }
 
-    const insertedData = await get(insertedId);
-    console.log('inserted', insertedId, insertedData);
+
+    const insertedData = await get(insertedId as string | number);
+    // console.log('inserted', insertedId, insertedData);
 
     return insertedData;
   };

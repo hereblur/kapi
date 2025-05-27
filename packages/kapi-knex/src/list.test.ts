@@ -35,7 +35,8 @@ beforeAll(async () => {
 });
 
 afterAll(() => {
-  unlink('/tmp/test.sqlite', () => {});
+  // The test uses an in-memory SQLite database (:memory:), so /tmp/test.sqlite is never created. Remove or update this cleanup to match the actual test database.
+  // unlink('/tmp/test.sqlite', () => {});
 });
 
 test('KnexQueryList', async () => {

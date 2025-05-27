@@ -1,5 +1,3 @@
-import { request } from "http";
-
 export interface IACLActor {
   permissions: Array<string>;
 }

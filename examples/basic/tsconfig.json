@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "build"
+  },
+  "references": [
+    { "path": "../../packages/kapi-core" },
+    { "path": "../../packages/kapi-knex" },
+    { "path": "../../packages/kapi-fastify" }
+  ],
+  "include": [
+    "src/**/*"
+  ]
+}
