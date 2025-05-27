@@ -22,7 +22,7 @@ export type ResourceHandlerParams = {
   body?: unknown | null;
   headers?: Record<string, string> | null;
 
-  actor: IACLActor;
+  actor: IACLActor | null;
 
   request?: unknown;
 };

@@ -1,7 +1,7 @@
 import {IACLActor} from '../types/acl';
 
 export function mayi(
-  actor: IACLActor,
+  actor: IACLActor | null,
   action: string | Array<string>,
 ): boolean {
   if (!actor || !actor.permissions || !action) {

@@ -1,6 +1,4 @@
-import { request } from "http";
-
-export interface IACLActor extends Object {
+export interface IACLActor {
   permissions: Array<string>;
 }
 

@@ -5,7 +5,7 @@ import { ResourceAction } from './crud';
 export type SchemaHookParams<T> = {
   resourceName: string;
   action: ResourceAction;
-  actor: IACLActor;
+  actor: IACLActor | null;
   raw: T;
   id?: TypeID;
 };
