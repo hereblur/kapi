@@ -33,7 +33,7 @@ export default class CacheManager {
     }
 
     async fetch<T>(key: string, ageSeconds: number, fn: () => Promise<T|null>): Promise<T|null> {
-        const data = this.cache.get(key)
+        const data = await this.cache.get(key)
         if (data) {
             return data as T;
         }
