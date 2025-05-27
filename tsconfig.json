@@ -1,0 +1,26 @@
+{
+  "extends": "./node_modules/gts/tsconfig-google.json",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "Node",
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "build",
+    "paths": {
+      "@kapi/core": ["packages/kapi-core/src"],
+      "@kapi/knex": ["packages/kapi-knex/src"],
+      "@kapi/fastify": ["packages/kapi-fastify/src"],
+      "@example/basic": ["examples/basic/src"],
+    }
+  },
+  "include": [
+    "packages/**/*",
+    "apps/**/*",
+    "examples/**/*"
+, "knexfile.ts"  ],
+  "exclude": [
+    "node_modules",
+    "build",
+  ] 
+}
