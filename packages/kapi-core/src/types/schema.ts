@@ -7,7 +7,7 @@ export interface BaseSchema {
 
 export type SchemaViewTransform = (
   value: unknown,
-  actor?: IACLActor,
+  actor?: IACLActor | null,
   record?: Record<string, unknown>,
 ) => unknown;
 

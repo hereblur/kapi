@@ -76,7 +76,7 @@ export default function useOpenAPI(config: ApiDocConfig) {
       uiConfig: {
         deepLinking: false,
       },
-      staticCSP: config?.protocol === 'https' ? true : false,
+      staticCSP: config.protocol === 'https' ? true : false,
       transformStaticCSP: header => header,
       // hideUntagged: false,
     });

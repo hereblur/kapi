@@ -6,8 +6,8 @@ import {
 import {FastifyRequestWithAuth} from '../../types';
 import {ErrorToHttp, IACLActor, Resource} from '@kapi/core';
 
-export function getActor(request: FastifyRequest): IACLActor {
-  return (request as FastifyRequestWithAuth).user as IACLActor;
+export function getActor(request: FastifyRequest): IACLActor|null {
+  return (request as FastifyRequestWithAuth).user as IACLActor || null;
 }
 
 export function getResourceId(request: FastifyRequest): string {

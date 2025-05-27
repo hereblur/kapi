@@ -41,7 +41,7 @@ export default async function KapiFastify(options: KapiFastifyOptions) {
       ? parseInt(process.env.PORT)
       : 9000;
 
-  fastify.decorateRequest('user', null);
+  fastify.decorateRequest('user', undefined);
 
   (options.securityDefinitions || []).forEach(def => {
     fastify.decorate(def.index, def.func);
@@ -57,15 +57,14 @@ export default async function KapiFastify(options: KapiFastifyOptions) {
     await f(fastify);
   }
 
-  fastify.listen({host: options.host || '0.0.0.0', port}, (err, address) => {
-    if (err) {
-      fastify.log.error(err);
 
-      throw err;
-    }
-
-    fastify.log.info(address);
-  });
-
+  try {
+    const address = await fastify.listen({host: options.host || '0.0.0.0', port});
+    fastify.log.info(`Server listening at ${address}`);
+  } catch (err) {
+    fastify.log.error(err);
+    throw err;
+  }
+   
   return fastify;
 }

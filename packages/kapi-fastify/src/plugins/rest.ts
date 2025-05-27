@@ -120,7 +120,7 @@ export default function useResources(
           break;
       }
 
-      // throw new Error(`HTTP method ${method} is not supported.`)
+      throw new ErrorToHttp(`HTTP method ${method} is not supported.`, 405, true);
     };
 
     resources.forEach(resourceDef => {
@@ -151,7 +151,7 @@ export default function useResources(
             200: endpoint.responseSchema ?
               convertSchema(endpoint.responseSchema) :
                   { "type": "object", "additionalProperties": true },
-            // ...httpErrors
+            ...httpErrors
           },
         } as FastifySchema;
 

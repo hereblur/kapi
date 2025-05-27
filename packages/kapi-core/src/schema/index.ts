@@ -103,7 +103,7 @@ export default class ResourceSchema {
   async validate<T>(
     action: ValidateAction,
     data: T,
-    actor: IACLActor,
+    actor: IACLActor | null,
     updatingId?: TypeID,
   ): Promise<T> {
     let pass = true;

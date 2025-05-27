@@ -13,7 +13,7 @@ PhotoResource.addHook('preCreate',  (data: Photo, params: SchemaHookParams<Photo
     return data;
 });
 
-// This run before after database update
+// This run after database update
 PhotoResource.addHook('postUpdate', async (data: Photo, params: SchemaHookParams<Photo>) => {
     console.log('data is updated by ', data, params.actor);
     return data;

@@ -362,8 +362,9 @@ export default class Resource<T> {
     }
   }
 
-  checkPermission(actor: IACLActor, action: ValidateAction | 'delete') {
+  checkPermission(actor: IACLActor | null, action: ValidateAction | 'delete') {
     if (
+      !actor ||
       !mayi(
         actor,
         this.permissionsAlias[action] || `${action}.${this._permissionName}`,
@@ -403,7 +404,7 @@ export default class Resource<T> {
     return data_;
   }
 
-  async viewAs(data: IDataRecord, actor: IACLActor): Promise<T> {
+  async viewAs(data: IDataRecord, actor: IACLActor | null): Promise<T> {
     const output: IDataRecord = {id: (data as any).id}; 
 
     if (!data) {
@@ -457,7 +458,7 @@ export default class Resource<T> {
   }
 
   async get(
-    actor: IACLActor,
+    actor: IACLActor | null,
     id: TypeID,
   ): Promise<T> {
     const conn = this.getConnection();
@@ -484,7 +485,7 @@ export default class Resource<T> {
   }
 
   async update(
-    actor: IACLActor,
+    actor: IACLActor | null,
     id: string | number,
     update_: Partial<T>,
   ): Promise<T> {
@@ -530,7 +531,7 @@ export default class Resource<T> {
   }
 
   async create(
-    actor: IACLActor,
+    actor: IACLActor | null,
     params_: T,
   ): Promise<T> {
     const conn = this.getConnection();
@@ -571,7 +572,7 @@ export default class Resource<T> {
   }
 
   async replace(
-    actor: IACLActor,
+    actor: IACLActor | null,
     id: string | number,
     params_: T,
   ): Promise<T> {
@@ -608,7 +609,7 @@ export default class Resource<T> {
     return await conn.delete!(id);
   }
 
-  async delete(actor: IACLActor, id: string | number) {
+  async delete(actor: IACLActor | null, id: string | number) {
     const conn = this.getConnection();
     this.checkDatabaseMethod(conn, 'delete');
     this.checkPermission(actor, 'delete');
@@ -651,7 +652,7 @@ export default class Resource<T> {
 
   }
 
-  async list(actor: IACLActor, queryString?: Record<string,string>|null, params?: Record<string,string>|null, body?: unknown|null, headers?: Record<string,string>|null) {
+  async list(actor: IACLActor | null, queryString?: Record<string,string>|null, params?: Record<string,string>|null, body?: unknown|null, headers?: Record<string,string>|null) {
     const conn = this.getConnection();
     this.checkDatabaseMethod(conn, 'list');
     this.checkPermission(actor, 'view');
